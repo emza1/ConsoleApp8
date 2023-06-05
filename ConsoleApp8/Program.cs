@@ -1,9 +1,10 @@
-﻿
+﻿{}namespace RecipeApp
+
     class Ingredient
 {
-    public string Name { get; set; }
-    public decimal Quantity { get; set; }
-    public string Unit { get; set; }
+    public string Ingredient.name { get; set; }
+     decimal Ingredient.quantity { get; set; }
+    public string Ingredient.unit { get; set; }
     public Ingredient(string Name, decimal Quantity, string Unit)
     {
         Name = Name;
