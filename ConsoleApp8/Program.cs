@@ -78,3 +78,41 @@ namespace RecipeApp
 
                 Console.WriteLine("Enter 'scale' to scale the recipe, 'reset' to reset quantities, 'clear' to clear all data, or any other key to exit:");
                 string command = Console.ReadLine();
+                if (command == "scale")
+                {
+                    Console.WriteLine("Enter the scaling factor (0.5, 2, or 3):");
+                    double scalingFactor = Convert.ToDouble(Console.ReadLine());
+                    ScaleRecipe(recipe, scalingFactor);
+                    DisplayRecipe(recipe);
+                }
+                else if (command == "reset")
+                {
+                    ResetQuantities(recipe);
+                    DisplayRecipe(recipe);
+                }
+                else if (command == "clear")
+                {
+                    recipe.Ingredients.Clear();
+                    recipe.Steps.Clear();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        static void DisplayRecipe(Recipe recipe)
+        {
+            Console.WriteLine("Recipe:");
+            Console.WriteLine("Ingredients:");
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                Console.WriteLine($"{ingredient.Name}: {ingredient.Quantity} {ingredient.Unit}");
+            }
+
+            Console.WriteLine("Steps:");
+            for (int i = 0; i < recipe.Steps.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {recipe.Steps[i].Description}");
+            }
+        }
