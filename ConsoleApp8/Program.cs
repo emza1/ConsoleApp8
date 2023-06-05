@@ -39,3 +39,18 @@ namespace RecipeApp
                 recipe.Ingredients.Clear();
                 for (int i = 0; i < ingredientCount; i++)
                 {
+                    Console.WriteLine($"Enter the name of ingredient {i + 1}:");
+                    string name = Console.ReadLine();
+
+                    Console.WriteLine($"Enter the quantity of ingredient {i + 1}:");
+                    double quantity = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine($"Enter the unit of measurement for ingredient {i + 1}:");
+                    string unit = Console.ReadLine();
+
+                    Ingredient ingredient = new Ingredient
+                    {
+                        Name = name,
+                        Quantity = quantity,
+                        Unit = unit
+                    };
