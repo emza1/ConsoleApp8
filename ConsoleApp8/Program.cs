@@ -1,78 +1,142 @@
-﻿{}namespace RecipeApp
+﻿using System;
+using System.Collections.Generic;
 
+namespace RecipeApp
+{
     class Ingredient
-{
-    public string Ingredient.name { get; set; }
-     decimal Ingredient.quantity { get; set; }
-    public string Ingredient.unit { get; set; }
-    public Ingredient(string Name, decimal Quantity, string Unit)
     {
-        Name = Name;
-        Quantity = Quantity;
-        Unit = Unit;
+        public string Name { get; set; }
+        public double Quantity { get; set; }
+        public string Unit { get; set; }
     }
-    public override string ToString()
-    {
-        return $"{Quantity} {Unit} {Name}";
-    }
-}
-class Step
-{
-    public string Description { get; set; }
-    public Step(string description)
-    {
-        Description = description;
-    }
-    public override string ToString()
-    {
-        return Description;
-    }
-}
-class Recipe
-{
-    private Ingredient[] ingredients;
-    private Step[] steps;
-    public Recipe(int numIngredients, int numSteps)
-    {
-        ingredients = new Ingredient[numIngredients];
-        steps = new Step[numSteps];
-    }
-    public void AddIngredient(int index, string Name, decimal Quantity, string Unit)
-    {
-        ingredients[index] = new Ingredient(Name, Quantity, Unit);
-    }
-    public void AddStep(int index, string description)
-    {
-        steps[index] = new Step(description);
-    }
-    public void Display()
-    {
-        Console.WriteLine("Ingredients:");
-        foreach (Ingredient ingredient in ingredients)
-        {
-            Console.WriteLine(ingredient.ToString());
-        }
-        Console.WriteLine("Steps:");
-        for (int i = 0; i < steps.Length; i++)
-        {
-            Console.WriteLine($"{i + 1}. {steps[i].ToString()}");
-        }
-    }
-    public void Scale(decimal factor)
-    {
-        foreach (Ingredient ingredient in ingredients)
-        {
-            ingredient.Quantity *= factor;
-        }
-    }
-    public void Reset()
-    {
-        foreach (Ingredient ingredient in ingredients)
-        {
-            ingredient.Quantity /= 3;
-            ingredient.Quantity /= 6;
-        }
-    }
-}
 
+    class Step
+    {
+        public string Description { get; set; }
+    }
+
+    class Recipe
+    {
+        public List<Ingredient> Ingredients { get; set; }
+        public List<Step> Steps { get; set; }
+
+        public Recipe()
+        {
+            Ingredients = new List<Ingredient>();
+            Steps = new List<Step>();
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Recipe recipe = new Recipe();
+
+            while (true)
+            {
+                Console.WriteLine("Enter the number of ingredients:");
+                int ingredientCount = Convert.ToInt32(Console.ReadLine());
+
+                recipe.Ingredients.Clear();
+                for (int i = 0; i < ingredientCount; i++)
+                {
+                    Console.WriteLine($"Enter the name of ingredient {i + 1}:");
+                    string name = Console.ReadLine();
+
+                    Console.WriteLine($"Enter the quantity of ingredient {i + 1}:");
+                    double quantity = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine($"Enter the unit of measurement for ingredient {i + 1}:");
+                    string unit = Console.ReadLine();
+
+                    Ingredient ingredient = new Ingredient
+                    {
+                        Name = name,
+                        Quantity = quantity,
+                        Unit = unit
+                    };
+
+                    recipe.Ingredients.Add(ingredient);
+                }
+
+                Console.WriteLine("Enter the number of steps:");
+                int stepCount = Convert.ToInt32(Console.ReadLine());
+
+                recipe.Steps.Clear();
+                for (int i = 0; i < stepCount; i++)
+                {
+                    Console.WriteLine($"Enter the description for step {i + 1}:");
+                    string description = Console.ReadLine();
+
+                    Step step = new Step
+                    {
+                        Description = description
+                    };
+
+                    recipe.Steps.Add(step);
+                }
+
+                DisplayRecipe(recipe);
+
+                Console.WriteLine("Enter 'scale' to scale the recipe, 'reset' to reset quantities, 'clear' to clear all data, or any other key to exit:");
+                string command = Console.ReadLine();
+
+                if (command == "scale")
+                {
+                    Console.WriteLine("Enter the scaling factor (0.5, 2, or 3):");
+                    double scalingFactor = Convert.ToDouble(Console.ReadLine());
+                    ScaleRecipe(recipe, scalingFactor);
+                    DisplayRecipe(recipe);
+                }
+                else if (command == "reset")
+                {
+                    ResetQuantities(recipe);
+                    DisplayRecipe(recipe);
+                }
+                else if (command == "clear")
+                {
+                    recipe.Ingredients.Clear();
+                    recipe.Steps.Clear();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        static void DisplayRecipe(Recipe recipe)
+        {
+            Console.WriteLine("Recipe:");
+            Console.WriteLine("Ingredients:");
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                Console.WriteLine($"{ingredient.Name}: {ingredient.Quantity} {ingredient.Unit}");
+            }
+
+            Console.WriteLine("Steps:");
+            for (int i = 0; i < recipe.Steps.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {recipe.Steps[i].Description}");
+            }
+        }
+
+        static void ScaleRecipe(Recipe recipe, double scalingFactor)
+        {
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                ingredient.Quantity *= scalingFactor;
+            }
+        }
+
+        static void ResetQuantities(Recipe recipe)
+        {
+            foreach (var ingredient in recipe.Ingredients)
+            {
+                ingredient.Quantity = ingredient.Quantity / ingredient.Quantity;
+            }
+        }
+    }
+}
 
