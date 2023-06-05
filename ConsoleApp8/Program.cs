@@ -25,3 +25,17 @@ namespace RecipeApp
             Steps = new List<Step>();
         }
     }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Recipe recipe = new Recipe();
+
+            while (true)
+            {
+                Console.WriteLine("Enter the number of ingredients:");
+                int ingredientCount = Convert.ToInt32(Console.ReadLine());
+
+                recipe.Ingredients.Clear();
+                for (int i = 0; i < ingredientCount; i++)
+                {
