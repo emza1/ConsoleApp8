@@ -54,3 +54,27 @@ namespace RecipeApp
                         Quantity = quantity,
                         Unit = unit
                     };
+                    recipe.Ingredients.Add(ingredient);
+                }
+
+                Console.WriteLine("Enter the number of steps:");
+                int stepCount = Convert.ToInt32(Console.ReadLine());
+
+                recipe.Steps.Clear();
+                for (int i = 0; i < stepCount; i++)
+                {
+                    Console.WriteLine($"Enter the description for step {i + 1}:");
+                    string description = Console.ReadLine();
+
+                    Step step = new Step
+                    {
+                        Description = description
+                    };
+
+                    recipe.Steps.Add(step);
+                }
+
+                DisplayRecipe(recipe);
+
+                Console.WriteLine("Enter 'scale' to scale the recipe, 'reset' to reset quantities, 'clear' to clear all data, or any other key to exit:");
+                string command = Console.ReadLine();
